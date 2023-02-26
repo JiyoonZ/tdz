@@ -39,43 +39,43 @@ function MealsSearch() {
   function deleteInputHandler() {
     setInputValue('');
     if (inputRef?.current) {
-      inputRef.current.value =""
+      inputRef.current.value = '';
       inputRef.current.focus();
     }
   }
 
   function onChangeInputHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    if (inputRef?.current) { 
+    if (inputRef?.current) {
       inputRef.current.value = e.target.value;
     }
   }
 
-  useEffect (()=> {
-    if (inputValue !== "") {
+  useEffect(() => {
+    if (inputValue !== '') {
       getSearchedResults();
     } else {
       setSearchedResult([]);
     }
-  },[inputValue])
+  }, [inputValue]);
 
-  async function getSearchedResults () {
+  async function getSearchedResults() {
     await api.get(`/api/meal/${inputValue}`).then((res: any) => {
       setSearchedResult(res.data);
     });
   }
   function inputSubmitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    
-    if (inputRef?.current) { 
+
+    if (inputRef?.current) {
       if (
         inputRef.current.value !== '' &&
         inputRef.current.value !== inputValue
-      ){
+      ) {
         setSearchedResult([]);
       }
-        setInputValue(inputRef.current.value);
+      setInputValue(inputRef.current.value);
     } else {
-      setInputValue("")
+      setInputValue('');
     }
     navigate(`/meals/search?tabNm=${TAB_NM.SEARCH}`);
   }
@@ -88,8 +88,6 @@ function MealsSearch() {
   function moveBookMarkTab() {
     navigate(`/meals/search?tabNm=${TAB_NM.MY_FAVORITE}`);
   }
-
-  console.log('렌더링', searchedResult);
 
   useEffect(() => {
     if (isLogin && is_login_first === 'true') {
