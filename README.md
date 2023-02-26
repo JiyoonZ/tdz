@@ -1,4 +1,6 @@
 # 🥑 TDZ
+🚀 service-link : [TDZ 서비스 배포 링크](http://13.124.111.98:8301/)
+
 ![대지_1](https://user-images.githubusercontent.com/81758576/220225702-dcde8cb0-5f2b-44ef-8201-019419379687.png)
 
 
