@@ -18,6 +18,7 @@ import { useAppSelector } from 'hooks';
 import * as S from './style';
 // etc
 import * as api from 'api';
+import Loading from 'pages/Loading';
 
 enum TAB_NM {
   SEARCH = 'SEARCH',
@@ -37,19 +38,46 @@ function MealsSearch() {
 
   function deleteInputHandler() {
     setInputValue('');
-    if (inputRef.current) {
+    if (inputRef?.current) {
+      inputRef.current.value =""
       inputRef.current.focus();
     }
   }
 
   function onChangeInputHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.target.value);
+    if (inputRef?.current) { 
+      inputRef.current.value = e.target.value;
+    }
   }
 
-  function inputSubmitHandler() {
-    api.get(`/api/meal/${inputValue}`).then((res: any) => {
+  useEffect (()=> {
+    if (inputValue !== "") {
+      getSearchedResults();
+    } else {
+      setSearchedResult([]);
+    }
+  },[inputValue])
+
+  async function getSearchedResults () {
+    await api.get(`/api/meal/${inputValue}`).then((res: any) => {
       setSearchedResult(res.data);
     });
+  }
+  function inputSubmitHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    
+    if (inputRef?.current) { 
+      if (
+        inputRef.current.value !== '' &&
+        inputRef.current.value !== inputValue
+      ){
+        setSearchedResult([]);
+      }
+        setInputValue(inputRef.current.value);
+    } else {
+      setInputValue("")
+    }
+    navigate(`/meals/search?tabNm=${TAB_NM.SEARCH}`);
   }
 
   function moveSearchTab() {
@@ -61,11 +89,7 @@ function MealsSearch() {
     navigate(`/meals/search?tabNm=${TAB_NM.MY_FAVORITE}`);
   }
 
-  useEffect(() => {
-    if (!inputValue) {
-      setSearchedResult([]);
-    }
-  }, [inputValue]);
+  console.log('렌더링', searchedResult);
 
   useEffect(() => {
     if (isLogin && is_login_first === 'true') {
@@ -78,12 +102,7 @@ function MealsSearch() {
   return (
     <Container>
       <ScrollContainer minusHeight={60}>
-        <S.SearchForm
-          onSubmit={(e) => {
-            e.preventDefault();
-            inputSubmitHandler();
-          }}
-        >
+        <S.SearchForm onSubmit={inputSubmitHandler}>
           <S.SearchBox>
             <span className="searchIcon">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -93,12 +112,8 @@ function MealsSearch() {
             </span>
             <S.SearchInput
               type="text"
-              value={inputValue}
               ref={inputRef}
               onChange={onChangeInputHandler}
-              onFocus={() => {
-                navigate(`/meals/search?tabNm=${TAB_NM.SEARCH}`);
-              }}
             ></S.SearchInput>
           </S.SearchBox>
           <S.SearchBtn type="submit">검색</S.SearchBtn>

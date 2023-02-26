@@ -15,6 +15,7 @@ import Signin from 'pages/SignPage/Signin';
 import Signup from 'pages/SignPage/Signup';
 import MealsEnroll from 'pages/MealsEnroll';
 import UserProfile from 'pages/UserProfile';
+import Loading from 'pages/Loading';
 
 export const ROUTES = {
   Main: {
@@ -81,4 +82,8 @@ export const ROUTES = {
     path: '/mypage/goal_step3',
     element: <GoalNutrient />,
   },
+  Loading : {
+    path :'/loading',
+    element : <Loading />
+  }
 };

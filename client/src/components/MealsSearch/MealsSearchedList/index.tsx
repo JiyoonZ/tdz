@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 // components
+import Loading from 'pages/Loading';
 import NoSearched from '../NoSearched';
 // stores
 import { addMeals, deleteMeals } from 'slices/mealsSlice';
@@ -74,11 +75,12 @@ function MealsSearchedList({ inputValue, result }: MealsSearchedListProps) {
       }),
     );
   }
-
   return (
     <S.SearchListContainer>
-      {list.length === 0 || !inputValue ? (
+      {!inputValue ? (
         <NoSearched></NoSearched>
+      ) : list.length === 0 ? (
+        <Loading />
       ) : (
         list.map((food: MealData) => {
           return (

@@ -52,7 +52,7 @@ function Main() {
             <S.IntroText>매일의 식단을 기록해보세요!</S.IntroText>
             <S.IntroText>당신의 건강이 달라집니다!</S.IntroText>
             <S.LoginContainer>
-              <S.Link
+              {/* <S.Link
                 href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=77524d6f60c947c98230e8d0d6c54eb4&redirect_uri=${process.env.REACT_APP_BASE_URL}/api/auth/kakao/callback`}
               >
                 <S.LoginBox brand={'카카오'}>
@@ -64,7 +64,7 @@ function Main() {
                   </span>
                   <p>카카오로 시작하기</p>
                 </S.LoginBox>
-              </S.Link>
+              </S.Link> */}
               <S.LoginBox
                 brand="TDZ"
                 onClick={() => {
